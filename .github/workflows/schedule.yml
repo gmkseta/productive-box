@@ -4,7 +4,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "* * * * *"
 jobs:
   update-gist:
     runs-on: ubuntu-latest
@@ -16,3 +16,17 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GIST_ID: ${{ secrets.GIST_ID }}
           LOCALE: ko-KR
+  run:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/setup-node@v1
+          with:
+              node-version: 12
+        - run: npx github-stats-box
+          env:
+              GH_TOKEN: ${{ secrets.GH_TOKEN }} # Do not edit, defined in secrets
+
+              # Edit the following environment variables
+              GIST_ID: e46587e9e50601c5444c377c33445101 # The ID portion from your gist url
+              ALL_COMMITS: true # If `true` it will count all commits, if `false` it will count your last year commits
+              K_FORMAT: false # If `true`, large numbers will be formatted with a "k", for example "1.5k"
